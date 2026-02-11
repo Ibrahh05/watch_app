@@ -1,1 +1,5 @@
-/verdor
+vendor
+.env
+storage/*.key
+.git
+tests
