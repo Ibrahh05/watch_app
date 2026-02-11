@@ -9,14 +9,9 @@ class Feature extends Model
 {
     use HasFactory;
 
-    protected $fillable =[
+    protected $fillable = [
         'name',
         'watch_id'
-    ];
-
-    protected $hidden = [
-        'created_at',
-        'updated_at'
     ];
 
     public function watch(){

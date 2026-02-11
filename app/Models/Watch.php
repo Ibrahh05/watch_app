@@ -8,29 +8,29 @@ use Illuminate\Database\Eloquent\Model;
 class Watch extends Model
 {
     use HasFactory;
-    
+
     protected $fillable = [
-        'model',
-        'brand',
-        'type_id',
-        'strap_id',
-        'year_edition',
-        'ean',
-        'price'
+        'brand', 
+        'model', 
+        'price', 
+        'type_id', 
+        'strap_id', 
+        'ean', 
+        'year_edition'
     ];
 
-    protected $hidden = ['type_id', 'strap_id'];
-
-    function feature(){
-        return $this->hasMany(Feature::class);
+    public function feature()
+    {
+        return $this->hasOne(Feature::class);
     }
 
-    function strap(){
-         return $this->belongsTo(Strap::class);
+    public function strap()
+    {
+        return $this->belongsTo(Strap::class);
     }
 
-    function type(){
+    public function type()
+    {
         return $this->belongsTo(Type::class);
     }
-
 }

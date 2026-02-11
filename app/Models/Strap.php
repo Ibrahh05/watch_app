@@ -10,7 +10,7 @@ class Strap extends Model
     use HasFactory;
 
     protected $fillable =[
-        'name',
+        'name','active'
     ];
 
     protected $hidden = ['created_at', 'updated_at'];

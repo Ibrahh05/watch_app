@@ -2,99 +2,59 @@
 
 namespace App\Http\Controllers;
 
-use App\Helpers\ApiResponse;
-use App\Http\Requests\CreateWatchRequest;
 use App\Services\WatchService;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 
 class WatchController extends Controller
 {
-    /**
-     * WatchService dependency injection
-     *
-     * @var WatchService
-     */
     protected $watchService;
 
-    /**
-     * Constructs the WatchController
-     *
-     * @param WatchService $watchService
-     */
     public function __construct(WatchService $watchService)
     {
         $this->watchService = $watchService;
     }
 
-    /**
-     * Retrieves all watches
-     *
-     * @return ApiResponse
-     */
     public function getAll()
     {
-        $watches = $this->watchService->getAll();
-        return ApiResponse::success($watches, "Successfully", Response::HTTP_OK);
+        return response()->json($this->watchService->getAll(), 200);
     }
 
-    /**
-     * Retrieves a watch
-     * 
-     * @return ApiResponse
-     */
     public function get($id)
     {
-        $watches = $this->watchService->get($id);
-        return ApiResponse::success($watches, "Successfully", Response::HTTP_OK);
+        try {
+            return response()->json($this->watchService->get($id), 200);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 404);
+        }
     }
 
-    /**
-     * Creates a new watch
-     *
-     * @param CreateWatchRequest $request
-     * @return ApiResponse
-     */
-    public function create(CreateWatchRequest $request)
+    public function create(Request $request)
     {
-        $watch = $this->watchService->create($request->all());
-        return ApiResponse::success($watch, "Watch created", Response::HTTP_CREATED);
+        try {
+            $watch = $this->watchService->create($request->all());
+            return response()->json($watch, 201);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], $e->getCode() ?: 500);
+        }
     }
 
-    /**
-     * Deletes an existing watch
-     *
-     * @param int $id
-     * @return ApiResponse
-     */
     public function delete($id)
     {
-        $watch = $this->watchService->delete($id);
-        return ApiResponse::success('', "Watch deleted", Response::HTTP_OK);
+        try {
+            $this->watchService->delete($id);
+            return response()->json(['message' => 'Eliminado'], 200);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
     }
 
-    /**
-     * Updates an existing watch
-     *
-     * @param Request $request
-     * @param int $id
-     * @return ApiResponse
-     */
     public function update(Request $request, $id)
     {
-        $watch = $this->watchService->update($request->all(), $id);
-        return ApiResponse::success($watch, "Watch updated", Response::HTTP_OK);
-    }
-
-    /**
-     * Retrieves watches by price
-     *
-     * @param float $price
-     * @return ApiResponse
-     */
-    public function getWatchByPrice($price)
-    {
-        $watches = $this->watchService->getAllByPrice($price);
-        return ApiResponse::success($watches, "Successfully", Response::HTTP_OK);
+        try {
+            $watch = $this->watchService->update($request->all(), $id);
+            return response()->json($watch, 200);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
     }
 }

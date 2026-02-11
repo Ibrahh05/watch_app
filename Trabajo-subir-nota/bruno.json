@@ -1,0 +1,9 @@
+{
+  "version": "1",
+  "name": "Trabajo-subir-nota",
+  "type": "collection",
+  "ignore": [
+    "node_modules",
+    ".git"
+  ]
+}
