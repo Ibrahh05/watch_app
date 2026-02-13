@@ -6,7 +6,7 @@ services:
         environment:
             POSTGRES_USER: user
             POSTGRES_PASSWORD: 1234
-            POSTGRES_DB: laravel
+            POSTGRES_DB: juan_time
         ports:
             - "5432:5432"
 
